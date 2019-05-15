@@ -1,0 +1,52 @@
+﻿@model BloodBankSystem.Models.BloodDonation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>BloodDonation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DonationDate" class="control-label"></label>
+                <input asp-for="DonationDate" class="form-control" />
+                <span asp-validation-for="DonationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volume" class="control-label"></label>
+                <input asp-for="Volume" class="form-control" />
+                <span asp-validation-for="Volume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NurseID" class="control-label"></label>
+                <select asp-for="NurseID" class="form-control" asp-items="ViewBag.NurseID">
+                    <option value="">-- Select Nurse --</option>
+                </select>
+                <span asp-validation-for="NurseID" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="DonorID" class="control-label"></label>
+                <select asp-for="DonorID" class="form-control" asp-items="ViewBag.DonorID">
+                    <option value="">-- Select Donor --</option>
+                </select>
+                <span asp-validation-for="DonorID" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
