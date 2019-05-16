@@ -20,10 +20,18 @@ namespace BloodBankSystem.Controllers
         }
 
         // GET: Nurses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var bBSContext = _context.Nurses.Include(n => n.Hospital);
-            return View(await bBSContext.ToListAsync());
+            ViewData["currentFilter"] = "";
+            var nurses = from h in _context.Nurses select h;
+            nurses=nurses.Include(n => n.Hospital);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                nurses = nurses.Where(h => h.FirstName.Contains(searchString) || h.LastName.Contains(searchString));
+                ViewData["currentFilter"] = searchString;
+            }
+            
+            return View(await nurses.ToListAsync());
         }
 
         // GET: Nurses/Details/5

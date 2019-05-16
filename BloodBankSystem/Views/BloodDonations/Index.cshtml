@@ -9,6 +9,15 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find: <select name="hospital" asp-items="ViewBag.HospitalID" ><option value="">-- Select Hospital --</option> </select>                   
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -19,10 +28,10 @@
                 @Html.DisplayNameFor(model => model.Volume)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nurse)
+                @Html.DisplayNameFor(model => model.Donor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Donor)
+                @Html.DisplayNameFor(model => model.Nurse)
             </th>
             <th></th>
         </tr>
@@ -37,10 +46,10 @@
                 @Html.DisplayFor(modelItem => item.Volume) ml
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nurse.FullName)
+                @Html.DisplayFor(modelItem => item.Donor.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Donor.FullName)
+                @Html.DisplayFor(modelItem => item.Nurse.FullName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BloodDonationID">Edit</a> |

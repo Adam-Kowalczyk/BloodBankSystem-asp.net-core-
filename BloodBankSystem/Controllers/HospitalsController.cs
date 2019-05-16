@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BloodBankSystem.Data;
 using BloodBankSystem.Models;
+using static BloodBankSystem.Models.BBSViewModels.HospitalDetails;
+using BloodBankSystem.Models.BBSViewModels;
 
 namespace BloodBankSystem.Controllers
 {
@@ -20,9 +22,16 @@ namespace BloodBankSystem.Controllers
         }
 
         // GET: Hospitals
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Hospitals.ToListAsync());
+            ViewData["currentFilter"] = "";
+            var hospitals = from h in _context.Hospitals select h;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                hospitals = hospitals.Where(h => h.Name.Contains(searchString));
+                ViewData["currentFilter"] = searchString;
+            }
+                return View(await hospitals.OrderBy(h => h.Name).AsNoTracking().ToListAsync());
         }
 
         // GET: Hospitals/Details/5
@@ -32,6 +41,8 @@ namespace BloodBankSystem.Controllers
             {
                 return NotFound();
             }
+            
+            
 
             var hospital = await _context.Hospitals
                 .Include(h => h.Nurses)
@@ -42,7 +53,22 @@ namespace BloodBankSystem.Controllers
                 return NotFound();
             }
 
-            return View(hospital);
+            var bloodQ =await _context.BloodDonations
+                            .Include(b => b.Nurse)
+                            .Include(b => b.Donor)
+                            .Where(b => b.Nurse.HospitalID == id)
+                            .GroupBy(b => b.Donor.BloodType)
+                            .Select(g => new BL
+                            {
+                                Type = g.Key,
+                                Amount = g.Sum(o => o.Volume)
+                            }).ToArrayAsync();
+
+            
+
+            
+
+            return View(new HospitalDetails { Hospital = hospital, BloodLevels = bloodQ});
         }
 
         // GET: Hospitals/Create

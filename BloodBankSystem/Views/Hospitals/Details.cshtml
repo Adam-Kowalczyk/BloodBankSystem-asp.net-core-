@@ -1,4 +1,4 @@
-﻿@model BloodBankSystem.Models.Hospital
+﻿@model BloodBankSystem.Models.BBSViewModels.HospitalDetails
 
 @{
     ViewData["Title"] = "Details";
@@ -11,19 +11,41 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Hospital.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Hospital.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Hospital.Address)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
+            @Html.DisplayFor(model => model.Hospital.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nurses)
+            Amount of blood
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Blood Type</th>
+                    <th>Amount</th>
+                </tr>
+                @foreach (var item in Model.BloodLevels)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Hospital.Nurses)
         </dt>
         <dd class="col-sm-10">
             <table class="table">
@@ -31,7 +53,7 @@
                     <th>Full Name</th>
                     <th>Hire Date</th>
                 </tr>
-                @foreach (var item in Model.Nurses)
+                @foreach (var item in Model.Hospital.Nurses)
                 {
                     <tr>
                         <td>
@@ -47,6 +69,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.HospitalID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Hospital.HospitalID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

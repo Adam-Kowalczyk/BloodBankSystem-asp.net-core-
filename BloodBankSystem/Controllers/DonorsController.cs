@@ -12,7 +12,7 @@ namespace BloodBankSystem.Controllers
 {
     public class DonorsController : Controller
     {
-        private string[] bloodTypes = new string[]
+        public string[] bloodTypes = new string[]
         {
             "0 Rh-","0 Rh+",
             "A Rh-","A Rh+",
@@ -27,9 +27,16 @@ namespace BloodBankSystem.Controllers
         }
 
         // GET: Donors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Donors.ToListAsync());
+            ViewData["currentFilter"] = "";
+            var donors = from h in _context.Donors select h;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                donors = donors.Where(h => h.FirstName.Contains(searchString) || h.LastName.Contains(searchString));
+                ViewData["currentFilter"] = searchString;
+            }
+            return View(await donors.AsNoTracking().ToListAsync());
         }
 
         // GET: Donors/Details/5

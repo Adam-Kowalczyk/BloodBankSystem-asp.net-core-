@@ -20,9 +20,19 @@ namespace BloodBankSystem.Controllers
         }
 
         // GET: BloodDonations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? hospital)
         {
-            var bBSContext = _context.BloodDonations.Include(b => b.Donor).Include(b => b.Nurse);
+            ViewData["HospitalID"] = new SelectList(_context.Hospitals, "HospitalID", "Name");
+            IQueryable<BloodDonation> bBSContext;
+            //var bBSContext = _context.BloodDonations.Include(b => b.Donor).Include(b => b.Nurse).OrderByDescending(h=>h.DonationDate);
+            if (hospital != null)
+            {
+                bBSContext = _context.BloodDonations.Include(b => b.Donor).Include(b => b.Nurse).OrderByDescending(h => h.DonationDate).Where(b => b.Nurse.HospitalID == hospital);
+            }
+            else
+            {
+                bBSContext = _context.BloodDonations.Include(b => b.Donor).Include(b => b.Nurse).OrderByDescending(h => h.DonationDate);
+            }
             return View(await bBSContext.ToListAsync());
         }
 
