@@ -9,11 +9,11 @@
 <p>
     <a asp-action="Create">Add New</a>
 </p>
-<form asp-action="Index" method="get">
+<form asp-action="Index" method="get" class="form-inline my-2 my-lg-0">
     <div class="form-actions no-color">
         <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" class="form-control mr-sm-2"/>
+            <input type="submit" value="Search" class="btn btn-primary" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>

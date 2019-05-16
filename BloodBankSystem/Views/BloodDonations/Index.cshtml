@@ -9,11 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
+<form asp-action="Index" method="get" class="form-inline my-2 my-lg-0">
+    <div class="form-actions no-color" >
         <p>
-            Find: <select name="hospital" asp-items="ViewBag.HospitalID" ><option value="">-- Select Hospital --</option> </select>                   
-            <input type="submit" value="Search" class="btn btn-default" /> |
+            Find: <select name="hospital" asp-items="ViewBag.HospitalID" class="form-control"><option value="">-- Select Hospital --</option> </select>                   
+            <input type="submit" value="Search" class="btn btn-primary" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
